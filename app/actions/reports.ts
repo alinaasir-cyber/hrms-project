@@ -9,12 +9,13 @@ export async function getReportsData() {
     // Raw or Safe query handling to bypass missing Prisma Client types
     const attendanceRecords = await prisma.attendance.findMany();
     const leaveRequests = await prisma.leaveRequest.findMany();
+    const payrollRecords = await prisma.payroll.findMany();
     const employees = await prisma.employee.findMany({ select: { baseSalary: true } });
 
-    const totalPayrollSpend = employees.reduce(
-      (sum, item) => sum + Number(item.baseSalary || 0),
-      0
-    );
+    const totalPayrollSpend =
+      payrollRecords.length > 0
+        ? payrollRecords.reduce((sum, item) => sum + Number(item.netSalary || 0), 0)
+        : employees.reduce((sum, item) => sum + Number(item.baseSalary || 0), 0);
 
     const pendingLeaves = leaveRequests.filter(
       (item: any) => item.status === 'PENDING'

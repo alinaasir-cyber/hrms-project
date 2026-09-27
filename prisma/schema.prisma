@@ -33,6 +33,7 @@ model Employee {
   department   Department   @relation(fields: [departmentId], references: [id])
   attendances  Attendance[]
   leaveRequests LeaveRequest[]
+  payrolls     Payroll[]
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
 }
@@ -50,6 +51,7 @@ model Attendance {
 
   @@unique([employeeId, date])
 }
+
 enum LeaveType {
   ANNUAL
   SICK
@@ -76,4 +78,28 @@ model LeaveRequest {
   updatedAt   DateTime    @updatedAt
 
   employee    Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+}
+
+enum PayrollStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model Payroll {
+  id          String        @id @default(cuid())
+  employeeId  String
+  month       String
+  baseSalary  Decimal       @db.Decimal(12, 2)
+  allowance   Decimal       @default(0) @db.Decimal(12, 2)
+  deductions  Decimal       @default(0) @db.Decimal(12, 2)
+  netSalary   Decimal       @db.Decimal(12, 2)
+  status      PayrollStatus @default(PENDING)
+  paymentDate DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  employee    Employee      @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([employeeId, month])
 }
