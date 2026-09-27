@@ -1,4 +1,5 @@
 import { PrismaClient, EmployeeRole } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -16,11 +17,15 @@ async function main() {
     }),
   ]);
 
+  const defaultPassword = "Password123!";
+  const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+
   await prisma.employee.upsert({
     where: { staffCode: "EMP001" },
     update: {
       fullName: "System Administrator",
       email: "admin@company.com",
+      password: hashedPassword,
       baseSalary: 3000,
       role: EmployeeRole.SUPER_ADMIN,
       department: { connect: { id: itDepartment.id } },
@@ -29,11 +34,14 @@ async function main() {
       staffCode: "EMP001",
       fullName: "System Administrator",
       email: "admin@company.com",
+      password: hashedPassword,
       baseSalary: 3000,
       role: EmployeeRole.SUPER_ADMIN,
       department: { connect: { id: itDepartment.id } },
     },
   });
+
+  console.log("Admin seeded: admin@company.com / Password123!");
 }
 
 main()
