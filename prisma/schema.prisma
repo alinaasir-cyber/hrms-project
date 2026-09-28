@@ -19,6 +19,18 @@ model Department {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   employees Employee[]
+  positions Position[]
+}
+
+model Position {
+  id           String     @id @default(cuid())
+  title        String
+  description  String?
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  employees    Employee[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 model Employee {
@@ -31,6 +43,8 @@ model Employee {
   role         EmployeeRole @default(SUPER_ADMIN)
   departmentId String
   department   Department   @relation(fields: [departmentId], references: [id])
+  positionId   String?
+  position     Position?    @relation(fields: [positionId], references: [id], onDelete: SetNull)
   attendances  Attendance[]
   leaveRequests LeaveRequest[]
   payrolls     Payroll[]

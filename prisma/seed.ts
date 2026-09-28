@@ -17,6 +17,46 @@ async function main() {
     }),
   ]);
 
+  // Seed sample Positions
+  let itPosition = await prisma.position.findFirst({
+    where: { title: "Lead Systems Architect", departmentId: itDepartment.id },
+  });
+  if (!itPosition) {
+    itPosition = await prisma.position.create({
+      data: {
+        title: "Lead Systems Architect",
+        description: "Oversees enterprise IT infrastructure, cloud architecture, and systems reliability.",
+        departmentId: itDepartment.id,
+      },
+    });
+  }
+
+  let devPosition = await prisma.position.findFirst({
+    where: { title: "Senior Software Engineer", departmentId: itDepartment.id },
+  });
+  if (!devPosition) {
+    devPosition = await prisma.position.create({
+      data: {
+        title: "Senior Software Engineer",
+        description: "Designs and maintains core business web applications and API services.",
+        departmentId: itDepartment.id,
+      },
+    });
+  }
+
+  let hrPosition = await prisma.position.findFirst({
+    where: { title: "HR Operations Specialist", departmentId: hrDepartment.id },
+  });
+  if (!hrPosition) {
+    hrPosition = await prisma.position.create({
+      data: {
+        title: "HR Operations Specialist",
+        description: "Handles employee onboarding, records, benefits administration, and company policy.",
+        departmentId: hrDepartment.id,
+      },
+    });
+  }
+
   const defaultPassword = "Password123!";
   const hashedPassword = await bcrypt.hash(defaultPassword, 10);
 
@@ -30,6 +70,7 @@ async function main() {
       baseSalary: 3000,
       role: EmployeeRole.SUPER_ADMIN,
       department: { connect: { id: itDepartment.id } },
+      position: { connect: { id: itPosition.id } },
     },
     create: {
       staffCode: "EMP001",
@@ -39,6 +80,7 @@ async function main() {
       baseSalary: 3000,
       role: EmployeeRole.SUPER_ADMIN,
       department: { connect: { id: itDepartment.id } },
+      position: { connect: { id: itPosition.id } },
     },
   });
 
@@ -52,6 +94,7 @@ async function main() {
       baseSalary: 2500,
       role: EmployeeRole.EMPLOYEE,
       department: { connect: { id: hrDepartment.id } },
+      position: { connect: { id: hrPosition.id } },
     },
     create: {
       staffCode: "EMP002",
@@ -61,6 +104,7 @@ async function main() {
       baseSalary: 2500,
       role: EmployeeRole.EMPLOYEE,
       department: { connect: { id: hrDepartment.id } },
+      position: { connect: { id: hrPosition.id } },
     },
   });
 
@@ -74,6 +118,7 @@ async function main() {
       baseSalary: 3500,
       role: EmployeeRole.EMPLOYEE,
       department: { connect: { id: itDepartment.id } },
+      position: { connect: { id: devPosition.id } },
     },
     create: {
       staffCode: "EMP003",
@@ -83,6 +128,7 @@ async function main() {
       baseSalary: 3500,
       role: EmployeeRole.EMPLOYEE,
       department: { connect: { id: itDepartment.id } },
+      position: { connect: { id: devPosition.id } },
     },
   });
 

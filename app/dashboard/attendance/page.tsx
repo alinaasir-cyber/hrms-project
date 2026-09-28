@@ -44,7 +44,7 @@ export default async function AttendancePage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {employees.map((emp: any) => {
+            {employees.map((emp) => {
               const todayRecord = emp.attendances[0];
 
               return (

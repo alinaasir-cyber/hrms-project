@@ -212,7 +212,7 @@ export default async function PayrollPage() {
               {payrolls.length === 0 && (
                 <tr>
                   <td colSpan={8} className="py-10 text-center text-slate-400 text-sm">
-                    No payroll run found for {currentMonth}. Click "Generate Monthly Run" to initialize.
+                    No payroll run found for {currentMonth}. Click &quot;Generate Monthly Run&quot; to initialize.
                   </td>
                 </tr>
               )}

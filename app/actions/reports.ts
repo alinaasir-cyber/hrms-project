@@ -18,11 +18,11 @@ export async function getReportsData() {
         : employees.reduce((sum, item) => sum + Number(item.baseSalary || 0), 0);
 
     const pendingLeaves = leaveRequests.filter(
-      (item: any) => item.status === 'PENDING'
+      (item: { status: string }) => item.status === 'PENDING'
     ).length;
 
     const approvedLeaves = leaveRequests.filter(
-      (item: any) => item.status === 'APPROVED'
+      (item: { status: string }) => item.status === 'APPROVED'
     ).length;
 
     return {

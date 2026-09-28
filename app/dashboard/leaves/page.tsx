@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { createLeaveRequest, updateLeaveStatus } from '@/app/actions/leaves';
-import { LeaveStatus, LeaveType } from '@prisma/client';
+import { LeaveStatus } from '@prisma/client';
 
 export default async function LeavesPage() {
   const [leaves, employees] = await Promise.all([
