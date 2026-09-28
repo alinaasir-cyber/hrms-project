@@ -22,5 +22,8 @@ export default async function PositionsPage() {
     }),
   ]);
 
-  return <PositionsClient initialPositions={positions} departments={departments} />;
+  const serializedPositions = JSON.parse(JSON.stringify(positions));
+  const serializedDepartments = JSON.parse(JSON.stringify(departments));
+
+  return <PositionsClient initialPositions={serializedPositions} departments={serializedDepartments} />;
 }

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { updateEmployee } from '@/app/actions/employee';
 import Link from 'next/link';
-import type { Prisma } from '@prisma/client';
 
 interface Department {
   id: string;
@@ -25,7 +24,7 @@ interface Employee {
   role: string;
   departmentId: string;
   positionId: string | null;
-  baseSalary?: Prisma.Decimal | number | string | null;
+  baseSalary?: number | string | null;
 }
 
 interface EditEmployeeFormProps {

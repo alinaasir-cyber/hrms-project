@@ -22,11 +22,16 @@ export default async function EmployeesPage() {
     }),
   ]);
 
+  // Safely serialize Prisma Decimal (baseSalary) and Date objects for React Client Component boundary
+  const serializedEmployees = JSON.parse(JSON.stringify(employees));
+  const serializedDepartments = JSON.parse(JSON.stringify(departments));
+  const serializedPositions = JSON.parse(JSON.stringify(positions));
+
   return (
     <EmployeesClient
-      initialEmployees={employees}
-      departments={departments}
-      positions={positions}
+      initialEmployees={serializedEmployees}
+      departments={serializedDepartments}
+      positions={serializedPositions}
     />
   );
 }

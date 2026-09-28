@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import EditEmployeeForm from './EditEmployeeForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EditEmployeePage({
   params,
 }: {
@@ -27,6 +29,11 @@ export default async function EditEmployeePage({
     notFound();
   }
 
+  // Safely serialize Prisma Decimal (baseSalary) and Date objects for React Client Component boundary
+  const serializedEmployee = JSON.parse(JSON.stringify(employee));
+  const serializedDepartments = JSON.parse(JSON.stringify(departments));
+  const serializedPositions = JSON.parse(JSON.stringify(positions));
+
   return (
     <div className="p-8 max-w-2xl mx-auto">
       {/* Header */}
@@ -45,9 +52,9 @@ export default async function EditEmployeePage({
 
       {/* Edit Form */}
       <EditEmployeeForm
-        employee={employee}
-        departments={departments}
-        positions={positions}
+        employee={serializedEmployee}
+        departments={serializedDepartments}
+        positions={serializedPositions}
       />
     </div>
   );
